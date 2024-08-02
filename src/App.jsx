@@ -1,33 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {User,MessageCircle,X,Heart} from 'lucide-react'
+
+const ProfileSelector = ({ profile, onSwipe }) => (
+  profile ? (
+  <div className="rounded-lg overflow-hidden bg-white shadow-lg">
+    <div className="relative">
+      <img src={'http://localhost:8080/images/' + profile.imageUrl} />
+      <div className="absolute bottom-0 left-0 right-0 text-white p-4 bg-gradient-to-t from-black">
+        <h2 className='text-3xl font-bold'>{profile.firstName} {profile.lastName}, {profile.age}</h2>
+      </div>
+    </div>
+    <div className="p-4">
+      <p className="text-gray-600 mb-4">{profile.bio}</p>
+    </div>
+    <div className="p-4 flex justify-center space-x-4">
+      <button className='bg-red-500 rounded-full p-4 text-white hover:bg-red-700'
+        onClick={() => onSwipe(profile.id, "left")}>
+        <X size={24} />
+      </button>
+      <button className='bg-green-500 rounded-full p-4 text-white hover:bg-green-700'
+        onClick={() => onSwipe(profile.id, "right")}>
+        <Heart size={24} />
+      </button>
+    </div>
+  </div>
+  ) : (<div>Loading...</div>)
+);
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="max-w-md mx-auto p-4" >
+      <nav className="flex justify-between mb-4">
+        <User/>
+        <MessageCircle/>
+      </nav>
+      <ProfileSelector/>
+    </div>
     </>
   )
 }
